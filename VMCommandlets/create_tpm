@@ -1,0 +1,8 @@
+#!/bin/zsh
+
+# Taken from: https://en.opensuse.org/Software_TPM_Emulator_For_QEMU
+
+# Create directory for tpm
+mkdir /tmp/$1
+# Create tpm and fork to background
+swtpm socket --tpmstate dir=/tmp/$1 --ctrl type=unixio,path=/tmp/$1/swtpm-sock --log level=20 --tpm2 &
