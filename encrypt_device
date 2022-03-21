@@ -1,0 +1,14 @@
+#!/bin/zsh
+
+# Create a random 512 byte file
+dd bs=512 count=4 if=/dev/random of=$2 iflag=fullblock
+
+# Gen RSA
+openssl genrsa -out $2 4096
+
+# Set permissions on
+chmod -v 0400 $2
+chown root:root $2
+
+# Encrypt with RSA file
+cryptsetup -v --cipher=aes-xts-plain64 --hash=sha512 --key-size=512 --iter-time=3000 --use-urandom --key-file=$2 luksFormat $1 
