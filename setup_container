@@ -1,0 +1,15 @@
+#!/bin/zsh
+
+#Chroot into container
+sudo chroot $1 /bin/zsh << "EOT"
+
+#Add user admin and set initial password to 'admin'
+useradd -m -G wheel,storage,power,users,input -s /bin/zsh admin
+echo -e "admin\nadmin" | passwd admin
+
+#Make user admin a sudoer
+echo 'admin  ALL=(ALL:ALL) ALL' >> /etc/sudoers
+
+EOT
+
+

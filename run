@@ -1,0 +1,3 @@
+#!/bin/zsh
+
+sudo systemd-nspawn $2 -bD $1 

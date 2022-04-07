@@ -1,0 +1,6 @@
+#!/bin/zsh
+
+export o=defaults,x-mount.mkdir
+export o_btrfs=$o,compress=lzo,ssd,noatime
+
+btrfs subvolume create $1

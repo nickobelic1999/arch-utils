@@ -1,0 +1,16 @@
+#!/bin/zsh
+
+./createTPM ./winServtpm
+
+sudo qemu-system-x86_64 -enable-kvm -M pc-i440fx-6.1 -cpu host -smp cores=8 -m 16384 -hda /home/nickobelic1999/WindowsServer2022/WindowsServer2022.qcow \
+        -bios /usr/share/edk2-ovmf/x64/OVMF.fd \
+	-drive if=pflash,format=raw,readonly=on,file=/usr/share/edk2-ovmf/x64/OVMF_CODE.fd \
+	-drive if=pflash,format=raw,file=/home/nickobelic1999/WindowsServer2022/winServ_efi_vars.fd \
+	-vga vmware \
+        -netdev tap,id=mynet0,ifname=tap1,script=no,downscript=no \
+	-net user,hostfwd=tcp::3389-:3389 \
+   	-device e1000,netdev=mynet0 \
+	-chardev socket,id=chrtpm,path=/tmp/winServtpm/swtpm-sock \
+	-tpmdev emulator,id=tpm0,chardev=chrtpm -device tpm-tis,tpmdev=tpm0 \
+	-cdrom /home/nickobelic1999/WindowsServer_2022_x64.iso \
+	-vnc :1 -boot d

@@ -1,0 +1,6 @@
+#!/bin/zsh
+
+export o=defaults,x-mount.mkdir
+export o_btrfs=$o,compress=lzo,ssd,noatime
+
+sudo mount -t btrfs -o subvol=$2,$o_btrfs LABEL=$1 $3 
