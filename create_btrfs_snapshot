@@ -1,0 +1,7 @@
+#!/bin/zsh
+
+export o=defaults,x-mount.mkdir
+export o_btrfs=$o,compress=lzo,ssd,noatime
+
+btrfs subvolume snapshot $1 $2_$(date +%Y-%m-%d_%H:%M:%S).snap
+ 
