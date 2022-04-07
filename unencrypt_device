@@ -1,0 +1,5 @@
+#!/bin/zsh
+
+# https://wiki.archlinux.org/title/dm-crypt/Device_encryption
+
+cryptsetup --allow-discards --persistent open $1 $2 --key-file=$3
