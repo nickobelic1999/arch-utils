@@ -1,3 +1,5 @@
 #!/bin/zsh
 
-btrfs subvolume list $1
+# Taken from: https://superuser.com/questions/404045/how-to-rename-a-btrfs-subvolume
+
+btrfs sub list $1
