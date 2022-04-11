@@ -4,7 +4,7 @@
 
 sudo qemu-system-x86_64 -enable-kvm -M pc-i440fx-6.1 -cpu host -smp cores=8 -m 16384 -hda /dev/nvme0n1 \
         -bios /usr/share/edk2-ovmf/x64/OVMF.fd \
-	-drive if=pflash,format=raw,readonly,file=/usr/share/edk2-ovmf/x64/OVMF_CODE.fd \
+	-drive if=pflash,format=raw,readonly=on,file=/usr/share/edk2-ovmf/x64/OVMF_CODE.fd \
 	-drive if=pflash,format=raw,file=/home/nickobelic1999/win11_efi_vars.fd \
 	-vga vmware \
         -netdev tap,id=mynet0,ifname=tap0,script=no,downscript=no \
