@@ -6,11 +6,11 @@ sudo pacstrap -i $1 base base-devel zsh grml-zsh-config openssh nano wget git bt
 sudo chroot $1 /bin/zsh << "EOT"
 
 #Add user admin and set initial password to 'admin'
-useradd -m -G wheel,storage,power,users,input -s /bin/zsh admin
-echo -e "admin\nadmin" | passwd admin
+useradd -m -G wheel,storage,power,users,input -s /bin/zsh $2
+echo -e "$2\n$2" | passwd $2
 
 #Make user admin a sudoer
-echo 'admin  ALL=(ALL:ALL) ALL' >> /etc/sudoers
+echo $2'  ALL=(ALL:ALL) ALL' >> /etc/sudoers
 
 EOT
 
