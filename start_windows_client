@@ -1,18 +1,20 @@
-#!/bin/zsh
+#!/bin/zsh -x
 
-sudo ./create_tpm win11tpm &
+export VM_NAME=$1
+export VM_PATH=/Volumes/machines/$1
 
-sudo qemu-system-x86_64 -enable-kvm -M pc-i440fx-6.1 -cpu qemu64 -smp cores=12 -m 24576 \
+
+sudo ./create_tpm $VM_NAME &
+
+
+sudo qemu-system-x86_64 -enable-kvm -M pc-i440fx-6.1 -cpu qemu64 -smp cores=8 -m 16834 \
+	-hda $VM_PATH/$VM_NAME.qcow \
         -bios /usr/share/edk2-ovmf/x64/OVMF.fd \
         -drive if=pflash,format=raw,readonly=on,file=/usr/share/edk2-ovmf/x64/OVMF_CODE.fd \
-        -drive if=pflash,format=raw,file=/home/nickobelic1999/win11_efi_vars.fd \
-        -device vfio-pci,host=43:00.0 \
-        -device vfio-pci,host=43:00.1 \
-        -device vfio-pci,host=41:00.0 \
-        -vga vmware \
-        -chardev socket,id=chrtpm,path=/tmp/win11tpm/swtpm-sock \
+        -drive if=pflash,format=raw,file=$VM_PATH/$VM_NAME"_efi_vars.fd" \
+        -device e1000,netdev=network0 -netdev tap,id=network0,ifname=tap0,script=no,downscript=no,vhost=on \
+        -chardev socket,id=chrtpm,path=/tmp/$VM_NAME/swtpm-sock \
         -tpmdev emulator,id=tpm0,chardev=chrtpm -device tpm-tis,tpmdev=tpm0 \
-        -net nic,model=e1000 \
-        -net user,hostfwd=tcp::3389-:3389 \
         -cdrom /Volumes/dataStore/operatingSystems/Windows_x64/Win11.iso \
-        -vnc :1
+        -vga vmware \
+        -vnc :0

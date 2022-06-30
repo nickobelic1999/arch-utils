@@ -1,0 +1,3 @@
+#!/bin/zsh
+
+qemu-img create -f $2 $1 $3
