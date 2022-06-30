@@ -1,0 +1,3 @@
+!#/bin/zsh
+sudo btrfs filesystem du --human-readable --summarize $1
+
