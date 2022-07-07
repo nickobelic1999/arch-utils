@@ -20,7 +20,9 @@ mkfs.fat -F32 -n EFI /dev/disk/by-partlabel/EFI
 cryptsetup luksFormat --align-payload=8192 --cipher=aes-xts-plain64 --hash=sha512 --key-size=512 \
     --iter-time=3000 --verify-passphrase /dev/disk/by-partlabel/crypt-system
 
-cryptsetup open /dev/disk/by-partlabel/cryp-tsetup system
+cryptsetup open /dev/disk/by-partlabel/cryp-system system
+
+mkfs.btrfs -f --label system /dev/mapper/system
 
 echo Mounting partitons and creating BTRFS subvolumes...
 mount -t btrfs LABEL=system /mnt
@@ -48,6 +50,19 @@ mount LABEL=EFI /mnt/boot
 
 echo Installing system...
 
-pacstrap -i /mnt base base-devel zsh grml-zsh-config nano wget git btrfs-progs 
+pacstrap -i /mnt base base-devel zsh grml-zsh-config nano wget git btrfs-progs linux linux-firmware openssh 
 
+#Chroot into new install
+sudo arch-chroot /mnt /bin/zsh << "EOT"
+
+#Add user admin and set initial password to 'admin'
+useradd -m -G wheel,storage,power,users,input -s /bin/zsh $1
+echo -e "$2\n$2" | passwd $1
+
+#Make user admin a sudoer
+echo $1'  ALL=(ALL:ALL) ALL' >> /etc/sudoers
+
+
+
+EOT
 
