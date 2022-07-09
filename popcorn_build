@@ -1,7 +1,0 @@
-#!/bin/zsh
-
-./create_btrfs_subvolume machines $1
-./mount_btrfs_subvolume machines $1 /var/lib/machines/$1
-./popcorn /var/lib/machines/$1
-
-./run $1 
