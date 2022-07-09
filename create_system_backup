@@ -1,0 +1,3 @@
+#!/bin/zsh
+
+dd if=$1 bs=1M status=progress | zstd -16vT16 > $2/system_backup_$(date +%Y-%m-%d_%H:%M:%S).zst

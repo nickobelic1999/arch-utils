@@ -1,0 +1,4 @@
+#!/bin/zsh
+
+zstd -vdcfT6 $1 | dd of=$2 status=progress
+
