@@ -1,0 +1,1 @@
+ websockify --cert=/etc/nginx/certificates/nickwhite.tech/nickwhite.tech.pem --key=/etc/nginx/certificates/nickwhite.tech/nickwhite.tech.key 127.0.0.1:6080 $1:$2
