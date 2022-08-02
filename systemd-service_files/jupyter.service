@@ -1,0 +1,15 @@
+[Unit]
+Description=Jupyter lab
+After=multi-user.target network.target
+
+[Service]
+Type=simple
+PIDFile=/run/jupyter.pid
+ExecStart=/usr/bin/start_jupyter
+User=jupyter
+Group=jupyter
+Restart=always
+RestartSec=10
+
+[Install]
+WantedBy=multi-user.target
