@@ -6,7 +6,6 @@ After=multi-user.target network.target
 Restart=always
 # Replace this with x0vncserver from TigerVNC in Ubuntu 18.04.
 # Set password by running `sudo x11vnc -storepasswd [PASSWORD] /etc/x11vnc.passwd`
-ExecStart=/usr/bin/x11vnc x11vnc -display :0 -auth /var/run/lightdm/root/\:0 -forever -loop -noxdamage -repeat -rfauth /etc/x11vnc.passwd -rfbport 5900 -shared
-
+ExecStart=/usr/bin/x11vnc -auth guess -forever -loop -noxdamage -repeat -rfbauth /etc/x11vnc.passwd -rfbport 5900 -shared
 [Install]
 WantedBy=multi-user.target
