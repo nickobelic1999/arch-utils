@@ -1,23 +1,29 @@
+
 // Pull from: https://askubuntu.com/questions/80254/how-do-i-turn-off-caps-lock-the-lock-not-the-key-by-command-line
 // Altered by Nicholas White
 
 #include <iostream>
+#include <unistd.h>
 #include <stdio.h>
+
 #include <X11/X.h>
 #include <X11/XKBlib.h>
 
 int main(int argc, char* argv[])
 {
+    bool sent;
     Display *display = XOpenDisplay(NULL);
+
     if (display == NULL) {
         std::cerr << "Couldn't open display!" << std::endl;
         return 2;
     }
 
-    Bool sent = XkbLockModifiers(display, XkbUseCoreKbd, LockMask, 0);
-    if (!sent) {
+    sent = XkbLockModifiers(display, XkbUseCoreKbd, LockMask, 0);
+    if (!sent)
+    {
         std::cerr << "Couldn't send LatchLockState!" << std::endl;
-	return 1;
+        return 1;
     }
 
 #ifdef REPORT_STATE
