@@ -1,0 +1,59 @@
+#!/bin/sh
+
+time=$(date +'%Y-%m-%d@%T')
+grub_dir=/boot/grub
+config_file="$grub_dir"/arch-snapshots.cfg
+snapshot_dir=/snapshots
+subvol_dir=/snapshots/arch
+uuid=$(findmnt -o uuid -n /)
+parameters='rw quiet'
+
+get_snap_info() {
+   snap_list=$(for snap in "$snapshot_dir"/* ; do printf '%s ' "$(basename -- "$snap")" ; done)
+   snap_number=$(printf '%s\n' "$snap_list" | awk '{print NF}')
+   old_snap=$(printf '%s\n' "$snap_list" | awk '{print $1}')
+}
+
+if grep -q ' / .*snapshots.*' /proc/self/mounts ; then
+   printf 'Booted into snapshot, no action taken.\n'
+else
+   printf 'Removing old configuration file...\n'
+   if [ -e "$config_file" ] ; then
+     rm "$config_file"
+   else
+      printf 'No configuration file found.\n'
+   fi
+   printf 'Creating new snapshot...\n'
+   btrfs subvolume snapshot / "$snapshot_dir"/"$time"
+   get_snap_info
+   while [ "$snap_number" -gt 5 ] ; do
+      printf 'Removing excess snapshot...\n'
+      btrfs subvolume delete "$snapshot_dir"/"$old_snap"
+      get_snap_info
+   done
+   printf 'Creating new configuration file...\n'
+   printf '#\n' > "$config_file"
+   for entry in "$snapshot_dir"/* ; do
+      for kernel in "$entry"/boot/vmlinuz-* ; do
+         image=/boot/"${kernel##*/}"
+         initrd=/boot/initramfs-"${image#*-}".img
+         set -- "$entry"/boot/*-ucode.img
+         if [ -e "$1" ] ; then
+            initrd_line=$(printf 'initrd %s/%s/boot/%s %s/%s%s' "$subvol_dir" "${entry##*/}" "${1##*/}" "$subvol_dir" "${entry##*/}" "$initrd")
+         else
+            initrd_line=$(printf 'initrd %s/%s%s' "$subvol_dir" "${entry##*/}" "$initrd")
+         fi
+         ed "$config_file" > /dev/null <<!
+1i
+menuentry '${entry##*/} (${image#*-})' {
+   search --fs-uuid --set=root $uuid
+   linux $subvol_dir/${entry##*/}$image root=UUID=$uuid rootflags=subvol=$subvol_dir/${entry##*/} $parameters
+   $initrd_line
+}
+.
+w
+!
+         done
+   done
+   printf 'All done!\n'
+fi

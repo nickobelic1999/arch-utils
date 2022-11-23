@@ -1,7 +1,11 @@
 #!/bin/zsh
 
+export SUBVOL_NAME=$1
+export PATH_TO_SUBVOL=$2
+export SNAPSHOT_DIR=/.@snapshots
+
 export o=defaults,x-mount.mkdir
 export o_btrfs=$o,compress=lzo,ssd,noatime
 
-btrfs subvolume snapshot $1 $2_$(date +%Y-%m-%d_%H:%M:%S).snap
+btrfs subvolume snapshot -r $2/$1 $2/$SNAPSHOT_DIR/$1_$(date +%Y-%m-%d_%H:%M:%S).snap
  
