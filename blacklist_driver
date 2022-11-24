@@ -1,5 +1,0 @@
-#!/bin/zsh
-
-#Taken from: https://www.shellhacks.com/sudo-echo-to-file-permission-denied/
-# https://unix.stackexchange.com/questions/214607/how-to-disable-beep-tone-in-xfce-when-the-delete-button-is-pressed
-echo "blacklist "$1 | sudo tee --append /etc/modprobe.d/blacklist.conf
