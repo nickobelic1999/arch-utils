@@ -1,0 +1,20 @@
+#!/bin/zsh
+
+ACTION=$1
+
+case $ACTION in
+
+  build)
+    mkdir build && cd build
+    cmake -GNinja ../
+    ninja
+    ;;
+
+  clean)
+    rm -rf ./build
+    ;;
+
+  *)
+    echo "Error unknown command!"
+    ;;
+esac
