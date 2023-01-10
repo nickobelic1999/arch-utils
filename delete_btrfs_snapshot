@@ -1,0 +1,8 @@
+#!/bin/zsh
+
+export SUBVOL_NAME=$1
+export PATH_TO_SUBVOL=$2
+export SNAPSHOT_DIR=/.@snapshots
+
+btrfs subvolume delete $2/$SNAPSHOT_DIR/$1
+

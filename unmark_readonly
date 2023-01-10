@@ -1,0 +1,9 @@
+#!/bin/zsh
+
+export SUBVOL_NAME=$1
+export PATH_TO_SUBVOL=$2
+export SNAPSHOT_DIR=/.@snapshots
+
+#Unmark read only: https://unix.stackexchange.com/questions/149513/what-privileges-are-needed-to-delete-a-read-only-btrfs-subvolume
+btrfs property set -ts $2/$SNAPSHOT_DIR/$1 ro false
+

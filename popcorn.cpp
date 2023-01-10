@@ -1,12 +1,6 @@
-#include <iostream>
-#include <vector>
-#include <algorithm>
-#include <string>
-#include <cstring>
-#include <cstdio>
+#include "arch_util_common.hpp"
 
-#include <stdlib.h>
-
+/* TODO: This will be replaced with the arch_utils_common in future builds */
 std::vector <std::string> args;
 
 std::string destination;
@@ -75,13 +69,26 @@ int main(int argc, char* argv[])
     }
     else if(std::find(args.begin(), args.end(), "adduser") != args.end())
     {
-        std::cout << "This will add a user to the container!" << std::endl;
-        system("ls -lah");
+        /* TODO: This is very hard coded and needs to be fixed */
+        std::cout << "Adding user to container..." << std::endl;
+
+        cmd = "chroot " + destination + " /bin/zsh << EOT";
+
+        /* TODO: This is just for debugging, will be removed */
+        std::cout << cmd << std::endl;
+        // This will run the final command!
+        //system(cmd);
     }
     else if(std::find(args.begin(), args.end(), "run") != args.end())
     {
-        std::cout << "This will run a systemd container at a given destination!" << std::endl;
-        system("ls -lah");
+        std::cout << "running conatiner with systemd-nspawn..." << std::endl;
+
+        /* TODO: Find extra parameters for systemd-nspwan and store them in a new vector to be used later on */
+
+        cmd = "systemd-nspawn ";
+       /* TODO: This is only for debug will be removed later on */
+       std::cout << cmd << std::endl; 
+        //system(cmd);
     }
     else
     {
