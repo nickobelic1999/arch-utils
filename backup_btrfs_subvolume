@@ -1,0 +1,10 @@
+#!/bin/zsh
+
+export PATH_TO_SUBVOL=$1
+export BACKUP_PATH=$2
+
+export o=defaults,x-mount.mkdir
+export o_btrfs=$o,compress=lzo,ssd,noatime
+
+sudo btrfs send $1  | sudo btrfs receive $2
+# TODO: MAKE NEW SUBVOL NOT READONLY

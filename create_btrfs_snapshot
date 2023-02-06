@@ -2,7 +2,7 @@
 
 export SUBVOL_NAME=$1
 export PATH_TO_SUBVOL=$2
-export SNAPSHOT_DIR=/.@snapshots
+export SNAPSHOT_DIR=.@snapshots
 
 export o=defaults,x-mount.mkdir
 export o_btrfs=$o,compress=lzo,ssd,noatime

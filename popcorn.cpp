@@ -12,7 +12,7 @@ static void show_usage(std::string name)
 {
     std::cerr << "Usage: " << name << " <option(s)> SOURCES\n"
               << "Options:\n"
-              << "\t-h,--help\t\tShow this help message\n"
+              << "\t-h,--help\tShow this help message\n"
               << "\tpopulate \tThis will use \"pacstrap -i\" to install the following packages: \"base base-devel zsh grml-zsh-config openssh nano wget git btrfs-progs\"\n"
               << "\tadduser \tThis will add a user with the same username and password to the directory specified, it is RECOMMENDED to change password upon login!\n"
               << "\trun \t\tThis will run the specified container with \"systemd-nspawn -bD\" extra systemd-nspawn arguments can be added before the directory."

@@ -11,6 +11,8 @@ add_executable(genrand genrand.cpp ${COMMON})
 add_executable(popcorn popcorn.cpp ${COMMON})
 add_executable(toggle_caps_lock toggle_caps_lock.cpp ${COMMON})
 add_executable(usercheck usercheck.cpp ${COMMON})
+add_executable(btrfs_example btrfs_api_example.cpp ${COMMON})
 
 
 target_link_libraries(toggle_caps_lock X11)
+target_link_libraries(btrfs_example btrfs)

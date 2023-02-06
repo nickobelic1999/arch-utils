@@ -22,14 +22,20 @@ namespace arch_utils
     class errorHandler
     {
     public:
-        void printMsg(std::string);
+        void setErrorCode(int code);
+        int getErrorCode();
+
+        void setErrorMsg(std::string msg);
+        std::string getErrorMsg();
+
+        int onExit(int code, std::string msg);
 
 
         errorHandler();
         ~errorHandler();
 
     private:
-
+        int _code;
         std::string _msg;
 
     };
