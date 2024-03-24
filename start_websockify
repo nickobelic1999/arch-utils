@@ -1,2 +1,2 @@
 #!/bin/zsh
-websockify --cert=/etc/ssl/certs/nickwhite.me.pem --key=/etc/ssl/private/nickwhite.me.key 127.0.0.1:6080 $1:$2
+websockify --cert=/etc/ssl/certs/nickwhite.me.pem --key=/etc/ssl/private/nickwhite.me.key --timeout=$3 127.0.0.1:6080 $1:$2

@@ -10,5 +10,8 @@ openssl genrsa -out $2 4096
 chmod -v 0400 $2
 chown root:root $2
 
+#Set label on encrypted device: https://unix.stackexchange.com/questions/230308/how-can-i-set-a-label-on-a-dm-cryptluks-container
+cryptsetup config $1 --label $3
+
 # Encrypt with RSA file
 cryptsetup -v --align-payload=8192 --cipher=aes-xts-plain64 --hash=sha512 --key-size=512 --iter-time=3000 --use-urandom --key-file=$2 luksFormat $1 

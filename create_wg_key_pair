@@ -1,0 +1,2 @@
+#!/bin/zsh
+wg genkey | (umask 0077 && tee $1.key) | wg pubkey > $1.pub

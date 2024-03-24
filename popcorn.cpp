@@ -1,4 +1,4 @@
-#include "arch_util_common.hpp"
+#include "arch_utils_common/common.hpp"
 
 /* TODO: This will be replaced with the arch_utils_common in future builds */
 std::vector <std::string> args;

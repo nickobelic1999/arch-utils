@@ -1,14 +1,4 @@
-#include <unistd.h>
-#include <fcntl.h>
-#include <sys/ioctl.h>
-#include <linux/btrfs.h>
-#include <btrfsutil.h>
-#include <iostream>
-#include <string>
-#include <cstring>
-#include <vector>
-
-#include "arch_util_common.hpp"
+#include "arch_utils_common/common.hpp"
 
 int main(int argc, char* argv[])
 {
@@ -23,7 +13,8 @@ int main(int argc, char* argv[])
   }
 
   // Check for arguments
-  if (input_args.empty()) {
+  if (input_args.empty())
+  {
     std::cout << "You need to provide at least 1 argument!\n";
     return 1;
   }
@@ -39,17 +30,16 @@ int main(int argc, char* argv[])
   if(std::find(input_args.begin(), input_args.end(), "-h") != input_args.end())
   {
     //show_usage(argv[0]);
-    return 0;
+    std::cout << "This is the help prompt!" << std::endl;
   }
   else if(std::find(input_args.begin(), input_args.end(), "-h") != input_args.end())
   {
     //show_usage(argv[0])
-    return 0;
+    std::cout << "This is the help prompt!" << std::endl;
   }
   else if(std::find(input_args.begin(), input_args.end(), "create") != input_args.end())
   {
     // Create a subvolume
-    //struct btrfs_ioctl_vol_args btrfs_args;
     memset(&btrfs_args, 0, sizeof(btrfs_args));
     strcpy(btrfs_args.name, "@test_vol");
     ret = ioctl(fd, BTRFS_IOC_SUBVOL_CREATE, &btrfs_args);
@@ -59,10 +49,8 @@ int main(int argc, char* argv[])
       return 1;
     }
 
-    return 0;
-
   }
-  else
+  else if(std::find(input_args.begin(), input_args.end(), "delete") != input_args.end())
   {
     // Delete a subvolume
     memset(&btrfs_args, 0, sizeof(btrfs_args));
@@ -74,8 +62,10 @@ int main(int argc, char* argv[])
       return 1;
     }
 
-    return 0;
-
+  }
+  else
+  {
+      std::cout << "No valid commands given!" << std::endl;
   }
 
   // Close the Btrfs filesystem
