@@ -1,8 +1,9 @@
-#!/bin/zsh
+#!/bin/bash
 
-gpu="0000:"$2
-aud="0000:"$3
+#Taken from: https://wiki.archlinux.org/title/PCI_passthrough_via_OVMF
 
+gpu="0000:03:00.0"
+aud="0000:03:00.1"
 gpu_vd="$(cat /sys/bus/pci/devices/$gpu/vendor) $(cat /sys/bus/pci/devices/$gpu/device)"
 aud_vd="$(cat /sys/bus/pci/devices/$aud/vendor) $(cat /sys/bus/pci/devices/$aud/device)"
 
