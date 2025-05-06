@@ -3,4 +3,4 @@
 export o=defaults,x-mount.mkdir
 export o_btrfs=$o,compress=lzo,ssd,noatime
 
-mount -t btrfs LABEL=$1 $2
+mount -t btrfs /dev/mapper/$1 $2
